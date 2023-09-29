@@ -1,0 +1,17 @@
+{
+	"name": "logdataCSV",
+	"properties": {
+		"content": {
+			"query": "\nCREATE MASTER KEY ENCRYPTION BY PASSWORD= 'P@ssword@1231'\n\nCREATE DATABASE SCOPED CREDENTIAL [ADLS_credential]\nWITH IDENTITY='SHARED ACCESS SIGNATURE',  \nSECRET ='Rk8nOYUgRUpv+J3kYVKftYY7GTuooy0WV2mG4Yj/kVeCPwjsjnIrV66Slf6HmRpuzWug74jF4AGD+AStTOkWgg=='\nGO\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "pooldb",
+				"poolName": "pooldb"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
