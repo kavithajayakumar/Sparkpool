@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "48f72de4-66fc-48ef-b20b-e3048a4d159d"
+				"spark.autotune.trackingId": "423c78cd-691f-4f86-acc4-c9d1cd3757b5"
 			}
 		},
 		"metadata": {
@@ -28,7 +28,7 @@
 				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
-				"name": "python"
+				"name": "sql"
 			},
 			"a365ComputeOptions": {
 				"id": "/subscriptions/1a6bf076-94ad-4756-98fc-48f1774e1f20/resourceGroups/demoRG001/providers/Microsoft.Synapse/workspaces/demowp001/bigDataPools/sparkpool2023",
@@ -93,6 +93,24 @@
 						"transient": {
 							"deleting": false
 						}
+					}
+				},
+				"source": [
+					"df1.createOrReplaceTempView('data')"
+				],
+				"execution_count": 25
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
 					},
 					"collapsed": false
 				},
@@ -135,14 +153,38 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
 					"df.createOrReplaceTempView(\"Logdata\")\r\n",
 					"sqlres= spark.sql(\"SELECT * FROM Logdata\")\r\n",
-					"sqlres.show()"
+					"display(sqlres)"
 				],
-				"execution_count": 18
+				"execution_count": 19
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%sql\r\n",
+					"select Operationname, count(Operationname) from data group By Operationname"
+				],
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
