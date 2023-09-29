@@ -1,0 +1,87 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkpool2023",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "643cff48-6d45-4a2e-84b4-ac50fbdb529c"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/1a6bf076-94ad-4756-98fc-48f1774e1f20/resourceGroups/demoRG001/providers/Microsoft.Synapse/workspaces/demowp001/bigDataPools/sparkpool2023",
+				"name": "sparkpool2023",
+				"type": "Spark",
+				"endpoint": "https://demowp001.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkpool2023",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.3",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"# code is based on Azure cosmos DB\r\n",
+					" Azure Synapse link\r\n",
+					"\r\n",
+					" df = spark.read \\\r\n",
+					"    .format(\"cosmos.olap\") \\\r\n",
+					"    .option(\"spark.synapse.linkedService\", \"cosmosdb2023foru\") \\\r\n",
+					"    .option(\"spark.cosmos.container\", \"orders\") \\\r\n",
+					"    .load()\r\n",
+					"\r\n",
+					"display(df)"
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
