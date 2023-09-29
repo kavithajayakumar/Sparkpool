@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a946aee0-2021-4cad-9fce-db6ae087f51f"
+				"spark.autotune.trackingId": "48f72de4-66fc-48ef-b20b-e3048a4d159d"
 			}
 		},
 		"metadata": {
@@ -58,7 +58,71 @@
 					"df= spark.createDataFrame(course, ['ID','Course','Price'])\r\n",
 					"display(df)"
 				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"#To read the data\r\n",
+					"df1= spark.read.load(\"abfss://parquet@demost0001.dfs.core.windows.net/Log.parquet\", \\\r\n",
+					"format('parquet'))\r\n",
+					"display(df1)"
+				],
 				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"#To show where the ResourceGroup is Null\r\n",
+					"df2_Null= df1.filter(col('ResourceGroup').isNull())\r\n",
+					"Null_count= df2_Null.count()\r\n",
+					"print(f\"No of row are {Null_count}\")"
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"df3= df1.groupBy('ResourceGroup').count()\r\n",
+					"display(df3) "
+				],
+				"execution_count": 12
 			},
 			{
 				"cell_type": "code",
@@ -74,11 +138,11 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import *\r\n",
-					"sorted= df.sort(col('Price').desc())\r\n",
-					"sorted.show()"
+					"df.createOrReplaceTempView(\"Logdata\")\r\n",
+					"sqlres= spark.sql(\"SELECT * FROM Logdata\")\r\n",
+					"sqlres.show()"
 				],
-				"execution_count": 8
+				"execution_count": 18
 			},
 			{
 				"cell_type": "code",
