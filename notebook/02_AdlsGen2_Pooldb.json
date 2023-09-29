@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6d2ed984-d92c-4b5c-aeff-7cd562c8b67c"
+				"spark.autotune.trackingId": "796da0e6-1933-44e4-b757-8c5046e6ea5e"
 			}
 		},
 		"metadata": {
@@ -28,7 +28,7 @@
 				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
-				"name": "scala"
+				"name": "sql"
 			},
 			"a365ComputeOptions": {
 				"id": "/subscriptions/1a6bf076-94ad-4756-98fc-48f1774e1f20/resourceGroups/demoRG001/providers/Microsoft.Synapse/workspaces/demowp001/bigDataPools/sparkpool2023",
@@ -72,9 +72,9 @@
 					"    StructField(\"Resource\", StringType, true)))\r\n",
 					"\r\n",
 					"val df= spark.read.format(\"csv\").option(\"header\",\"True\").schema(dataSchema).load(\"abfss://csv@demost0001.dfs.core.windows.net/Log.csv\")\r\n",
-					"df.schema"
+					""
 				],
-				"execution_count": 53
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -90,7 +90,85 @@
 					}
 				},
 				"source": [
+					"val writeOptionsWithBasicAuth:Map[String, String] = Map(Constants.SERVER -> \"demowp001.sql.azuresynapse.net\",\r\n",
+					"                                           Constants.USER -> \"sqladminuser\",\r\n",
+					"                                           Constants.PASSWORD -> \"hema@123\",\r\n",
+					"                                           Constants.DATA_SOURCE -> \"pooldb\",                                    \r\n",
+					"                                           Constants.TEMP_FOLDER -> \"abfss://staging@demost0001.dfs.core.windows.net\",\r\n",
+					"                                           Constants.STAGING_STORAGE_ACCOUNT_KEY -> \"Rk8nOYUgRUpv+J3kYVKftYY7GTuooy0WV2mG4Yj/kVeCPwjsjnIrV66Slf6HmRpuzWug74jF4AGD+AStTOkWgg==\")\r\n",
+					"\r\n",
+					"// Also given the Storage Blob Contributor role for the storage account\r\n",
+					"import org.apache.spark.sql.SaveMode\r\n",
+					"import com.microsoft.spark.sqlanalytics.utils.Constants\r\n",
+					"import org.apache.spark.sql.SqlAnalyticsConnector._\r\n",
+					"\r\n",
+					"df.\r\n",
+					"    write.    \r\n",
+					"    options(writeOptionsWithBasicAuth).\r\n",
+					"    mode(SaveMode.Overwrite).    \r\n",
+					"    synapsesql(tableName = \"pooldb.dbo.logdata_parquet\",                 \r\n",
+					"                tableType = Constants.INTERNAL,                 \r\n",
+					"                location = None\r\n",
+					"                )\r\n",
+					"\r\n",
+					"                "
+				],
+				"execution_count": 54
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"CREATE DATABASE kavidb \r\n",
 					""
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"USE kavidb\r\n",
+					"CREATE TABLE kavidb.customer(ID int,Name varchar(120)) USING parquet \r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"INSERT INTO kavidb.customer VALUES (1, 'UserA')"
 				],
 				"execution_count": null
 			}
