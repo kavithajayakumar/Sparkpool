@@ -1,0 +1,99 @@
+{
+	"name": "02_AdlsGen2_Pooldb",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkpool2023",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6d2ed984-d92c-4b5c-aeff-7cd562c8b67c"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "scala"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/1a6bf076-94ad-4756-98fc-48f1774e1f20/resourceGroups/demoRG001/providers/Microsoft.Synapse/workspaces/demowp001/bigDataPools/sparkpool2023",
+				"name": "sparkpool2023",
+				"type": "Spark",
+				"endpoint": "https://demowp001.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkpool2023",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.3",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"import org.apache.spark.sql.types._\r\n",
+					"import org.apache.spark.sql.functions._\r\n",
+					"\r\n",
+					"\r\n",
+					"val dataSchema = StructType(Array(    \r\n",
+					"    StructField(\"Correlationid\", StringType, true),\r\n",
+					"    StructField(\"Operationname\", StringType, true),\r\n",
+					"    StructField(\"Status\", StringType, true),\r\n",
+					"    StructField(\"Eventcategory\", StringType, true),\r\n",
+					"    StructField(\"Level\", StringType, true),\r\n",
+					"    StructField(\"Time\", TimestampType, true),\r\n",
+					"    StructField(\"Subscription\", StringType, true),\r\n",
+					"    StructField(\"Eventinitiatedby\", StringType, true),\r\n",
+					"    StructField(\"Resourcetype\", StringType, true),\r\n",
+					"    StructField(\"Resourcegroup\", StringType, true),\r\n",
+					"    StructField(\"Resource\", StringType, true)))\r\n",
+					"\r\n",
+					"val df= spark.read.format(\"csv\").option(\"header\",\"True\").schema(dataSchema).load(\"abfss://csv@demost0001.dfs.core.windows.net/Log.csv\")\r\n",
+					"df.schema"
+				],
+				"execution_count": 53
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
