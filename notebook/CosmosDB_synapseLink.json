@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "CosmosDB_synapseLink",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "643cff48-6d45-4a2e-84b4-ac50fbdb529c"
+				"spark.autotune.trackingId": "820c0cf3-bbd4-46f4-b849-b4302edf3f8f"
 			}
 		},
 		"metadata": {
@@ -62,7 +62,7 @@
 					"\r\n",
 					"display(df)"
 				],
-				"execution_count": 1
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
